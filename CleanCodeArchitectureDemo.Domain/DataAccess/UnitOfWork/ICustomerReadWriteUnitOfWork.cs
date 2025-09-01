@@ -9,8 +9,8 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork
 {
     public interface ICustomerReadWriteUnitOfWork: IReadWriteUnitOfWork
     {
-        Task CreateCustomer(CreateCustomerRequest request);
-        Task UpdateCustomer(UpdateCustomerRequest request);
-        Task DeleteCustomer(int customerId);
+        Task CreateCustomerAsync(CreateCustomerRequest request);
+        Task UpdateCustomerAsync(UpdateCustomerRequest request);
+        Task DeleteCustomerAsync(int customerId);
     }
 }

@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Modelling\Models\CustomModels\" />
+    <Folder Include="Modelling\Models\SettingModels\" />
+  </ItemGroup>
+
 </Project>

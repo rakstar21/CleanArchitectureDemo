@@ -8,11 +8,11 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        Task<T> Add(T entity);
-        Task AddRange(IEnumerable<T> entities);
-        Task<T> Update(T entity);
-        Task UpdateRange(IEnumerable<T> entities);
-        Task Delete(T entity);
+        Task<T> AddAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
+        Task<T> UpdateAsync(T entity);
+        Task UpdateRangeAsync(IEnumerable<T> entities);
+        Task DeleteAsync(T entity);
         T GetById(int id);
         IEnumerable<T> GetAll();
     }

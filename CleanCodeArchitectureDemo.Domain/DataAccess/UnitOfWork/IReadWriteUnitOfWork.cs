@@ -9,7 +9,7 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork
     public interface IReadWriteUnitOfWork: IDisposable
     {
         void BeginTransaction();
-        void CommitChanges();
-        void RollbackChanges();
+        Task CommitChangesAsync();
+        Task RollbackChangesAsync();
     }
 }

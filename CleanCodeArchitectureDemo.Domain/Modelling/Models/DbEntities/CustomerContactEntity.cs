@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CleanCodeArchitectureDemo.Domain.Modelling.Models.DbEntities
 {
-    public class CustomerContactEntity
+    public class CustomerContactEntity: BaseEntity
     {
         public int CustomerId { get; set; }
         public string FirstName { get; set; }

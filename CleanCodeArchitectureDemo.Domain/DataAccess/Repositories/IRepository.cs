@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CleanCodeArchitectureDemo.Domain.Modelling.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CleanCodeArchitectureDemo.Domain.DataAccess.Repositories
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : IDomain
     {
         Task<T> AddAsync(T entity);
         Task AddRangeAsync(IEnumerable<T> entities);

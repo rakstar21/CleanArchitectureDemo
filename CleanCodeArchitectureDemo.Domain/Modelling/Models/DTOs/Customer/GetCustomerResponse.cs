@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer
 {
-    public class GetCustomerResponse
+    public class GetCustomerResponse : IResponse
     {
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }

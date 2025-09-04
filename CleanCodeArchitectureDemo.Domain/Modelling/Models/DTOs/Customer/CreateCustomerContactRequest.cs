@@ -1,6 +1,6 @@
 ﻿namespace CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer
 {
-    public class CreateCustomerContactRequest
+    public class CreateCustomerContactRequest : IRequest
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

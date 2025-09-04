@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer
 {
-    public class CreateCustomerRequest
+    public class CreateCustomerRequest : IRequest
     {
         public string CustomerName { get; set; }
         IEnumerable<CreateCustomerContactRequest> Contacts { get; set; }

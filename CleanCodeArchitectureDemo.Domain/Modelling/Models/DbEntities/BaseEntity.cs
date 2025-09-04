@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CleanCodeArchitectureDemo.Domain.Modelling.Models.DbEntities
 {
-    public abstract class BaseEntity
+    public abstract class BaseEntity: IDomain
     {
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }

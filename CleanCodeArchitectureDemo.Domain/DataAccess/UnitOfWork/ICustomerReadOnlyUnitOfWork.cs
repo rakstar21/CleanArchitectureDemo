@@ -9,6 +9,9 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork
 {
     public interface ICustomerReadOnlyUnitOfWork: IReadOnlyUnitOfWork
     {
+        Task<IEnumerable<GetCustomerResponse>> GetAllCustomerAsync();
         Task<GetCustomerResponse> GetCustomerAsync(int id);
+        Task<IEnumerable<GetCustomerContactResponse>> GetCustomerContactsByCustomerId(int customerId);
+        Task<GetCustomerContactResponse> GetCustomerContactById(int Id);
     }
 }

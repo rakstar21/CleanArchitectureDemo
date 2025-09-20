@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork
 {
-    public interface IReadWriteUnitOfWork: IDisposable
+    public interface IReadWriteUnitOfWork: IReadOnlyUnitOfWork
     {
         void BeginTransaction();
-        Task CommitChangesAsync();
-        Task RollbackChangesAsync();
+        Task CommitChangesAsync(CancellationToken cancellationToken = default);
+        Task RollbackChangesAsync(CancellationToken cancellationToken = default);
     }
 }

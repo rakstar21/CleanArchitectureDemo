@@ -9,14 +9,14 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork
 {
     public interface ICustomerReadWriteUnitOfWork: ICustomerReadOnlyUnitOfWork, IReadWriteUnitOfWork
     {
-        Task<int> CreateCustomerAsync(CreateCustomerRequest request);
-        Task UpdateCustomerAsync(UpdateCustomerRequest request);
-        Task DeleteCustomerAsync(int customerId);
+        Task<int> CreateCustomerAsync(CreateCustomerRequest request, CancellationToken cancellationToken = default);
+        Task UpdateCustomerAsync(UpdateCustomerRequest request, CancellationToken cancellationToken = default);
+        Task DeleteCustomerAsync(int customerId, CancellationToken cancellationToken = default);
 
-        Task<int> CreateCustomerContactAsync(CreateCustomerContactRequest request);
-        Task CreateCustomerContactsAsync(IEnumerable<CreateCustomerContactRequest> request);
-        Task UpdateCustomerContactAsync(UpdateCustomerContactRequest request);
-        Task UpdateCustomerContactsAsync(IEnumerable<CreateCustomerContactRequest> request);
-        Task DeleteCustomerContactAsync(int customerId);
+        Task<int> CreateCustomerContactAsync(CreateCustomerContactRequest request, CancellationToken cancellationToken = default);
+        Task CreateCustomerContactsAsync(IEnumerable<CreateCustomerContactRequest> request, CancellationToken cancellationToken = default);
+        Task UpdateCustomerContactAsync(UpdateCustomerContactRequest request, CancellationToken cancellationToken = default);
+        Task UpdateCustomerContactsAsync(IEnumerable<CreateCustomerContactRequest> request, CancellationToken cancellationToken = default);
+        Task DeleteCustomerContactAsync(int customerId, CancellationToken cancellationToken = default);
     }
 }

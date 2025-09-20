@@ -2,6 +2,7 @@
 using CleanCodeArchitectureDemo.Application.Abstractions.EventHandlers;
 using CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork;
 using CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer;
+using CleanCodeArchitectureDemo.Domain.Modelling.Models.Exceptions;
 using CleanCodeArchitectureDemo.Domain.Modelling.Validation;
 using Microsoft.Extensions.Logging;
 using System;
@@ -50,7 +51,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Com
                 var validationErrors = System.Text.Json.JsonSerializer.Serialize(validationResult.ValidationErrors);
                 logger.LogError($"Input errors in {nameof(CreateCustomerContactEventHandler)}: {validationErrors}");
 
-                throw new ArgumentException($"Invalid Arguments");
+                throw new BadRequestException<CreateCustomerContactRequest>(validationResult.ValidationErrors);
             }
         }
     }

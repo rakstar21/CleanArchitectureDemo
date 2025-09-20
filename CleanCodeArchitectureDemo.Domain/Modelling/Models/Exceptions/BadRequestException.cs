@@ -5,7 +5,7 @@ namespace CleanCodeArchitectureDemo.Domain.Modelling.Models.Exceptions
 {
     public class BadRequestException<T> : DomainException<T> where T : IDomain
     {
-        public BadRequestException(IEnumerable<ValidationError<T>> validationErrors) : base($"Invalid Request. See validation errors for more details")
+        public BadRequestException(IEnumerable<ValidationError<T>> validationErrors) : base($"Invalid { nameof(T) }. See validation errors for more details")
         {
             ValidationErrors = validationErrors;
         }

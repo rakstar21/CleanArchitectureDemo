@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementaions
+namespace CleanCodeArchitectureDemo.Application.Implementations
 {
     public class Sender : ISender
     {

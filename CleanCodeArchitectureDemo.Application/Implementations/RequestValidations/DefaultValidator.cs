@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementaions.RequestValidations
+namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidations
 {
     public abstract class DefaultValidator<T> : IValidator<T> where T : IDomain
     {

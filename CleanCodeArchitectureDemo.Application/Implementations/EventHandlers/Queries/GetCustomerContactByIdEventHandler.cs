@@ -9,27 +9,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Queries
+namespace CleanCodeArchitectureDemo.Application.Implementations.EventHandlers.Queries
 {
-    public class GetAllCustomerEventHandler : IQueryHandler<IGetAllCustomerEvent, IEnumerable<GetCustomerResponse>>
+    public class GetCustomerContactByIdEventHandler : IQueryHandler<IGetCustomerContactByIdEvent, GetCustomerContactResponse>
     {
         private readonly ICustomerReadOnlyUnitOfWork unitOfWork;
         private readonly ILogger logger;
 
-        public GetAllCustomerEventHandler(ICustomerReadOnlyUnitOfWork unitOfWork, ILogger logger)
+        public GetCustomerContactByIdEventHandler(ICustomerReadOnlyUnitOfWork unitOfWork, ILogger logger)
         {
             this.unitOfWork = unitOfWork;
             this.logger = logger;
         }
-        public async Task<IEnumerable<GetCustomerResponse>> Handle(IGetAllCustomerEvent applicationEvent, CancellationToken cancellationToken = default)
+        public async Task<GetCustomerContactResponse> Handle(IGetCustomerContactByIdEvent applicationEvent, CancellationToken cancellationToken = default)
         {
             try
             {
-                return await unitOfWork.GetAllCustomerAsync(cancellationToken);
+                return await unitOfWork.GetCustomerContactById(applicationEvent.CustomerId, cancellationToken);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Error found in {nameof(GetAllCustomerEventHandler)}");
+                logger.LogError(ex, $"Error found in {nameof(GetCustomerContactByIdEventHandler)}");
                 throw;
             }
         }

@@ -9,12 +9,12 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.Repositories
 {
     public interface IRepository<T> where T : IDomain
     {
-        Task<T> AddAsync(T entity);
-        Task AddRangeAsync(IEnumerable<T> entities);
-        Task<T> UpdateAsync(T entity);
-        Task UpdateRangeAsync(IEnumerable<T> entities);
-        Task DeleteAsync(T entity);
-        T GetById(int id);
-        IEnumerable<T> GetAll();
+        Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
+        Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+        Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default);
+        Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
+        Task DeleteAsync(T entity, CancellationToken cancellationToken = default);
+        T GetById(int id, CancellationToken cancellationToken = default);
+        IEnumerable<T> GetAll(CancellationToken cancellationToken = default);
     }
 }

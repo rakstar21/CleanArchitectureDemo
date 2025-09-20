@@ -9,6 +9,6 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.Repositories
 {
     public interface ICustomerContactRepository: IRepository<CustomerContactEntity>
     {
-        IEnumerable<CustomerContactEntity> GetContactsByCustomerId(int customerId);
+        Task<IEnumerable<CustomerContactEntity>> GetContactsByCustomerId(int customerId, CancellationToken cancellationToken = default);
     }
 }

@@ -8,7 +8,7 @@ namespace CleanCodeArchitectureDemo.Domain.Modelling.Models.Exceptions
 {
     public class DomainNotFoundException<T> : DomainException<T> where T : IDomain
     {
-        public DomainNotFoundException() : base($"The specified {typeof(T).Name} was not found.")
+        public DomainNotFoundException() : base($"The specified { typeof(T).Name.Replace("Entity", "") } was not found.")
         {
         }
     }

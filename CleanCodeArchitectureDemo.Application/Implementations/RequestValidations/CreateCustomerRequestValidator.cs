@@ -18,7 +18,9 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
             if (string.IsNullOrWhiteSpace(domain.CustomerName) || string.IsNullOrEmpty(domain.CustomerName)) validationResult.ValidationErrors.Add(new ValidationError<CreateCustomerRequest>() 
             {
                 ErrorMessage = $"CustomerName is empty",
-                DomainProperty = typeof(CreateCustomerContactRequest).GetProperty(nameof(domain.CustomerName))
+                DomainName = nameof(CreateCustomerRequest),
+                DomainProperty = nameof(domain.CustomerName),
+                PropertyValue = domain.CustomerName
             });
 
             if (validationResult.ValidationErrors.Any())

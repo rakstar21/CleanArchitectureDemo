@@ -18,13 +18,17 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
             if (string.IsNullOrWhiteSpace(domain.CustomerName) || string.IsNullOrEmpty(domain.CustomerName)) validationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerRequest>() 
             {
                 ErrorMessage = $"CustomerName is empty",
-                DomainProperty = typeof(UpdateCustomerRequest).GetProperty(nameof(domain.CustomerName))
+                DomainName = nameof(UpdateCustomerRequest),
+                DomainProperty = nameof(domain.CustomerName),
+                PropertyValue = domain.CustomerName
             });
 
             if (domain.Id < 1) validationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerRequest>()
             {
                 ErrorMessage = "Invalid Id.",
-                DomainProperty = typeof(UpdateCustomerRequest).GetProperty(nameof(domain.Id))
+                DomainName = nameof(UpdateCustomerRequest),
+                DomainProperty = nameof(domain.Id),
+                PropertyValue = domain.Id
             });
 
             if (validationResult.ValidationErrors.Any())

@@ -12,6 +12,7 @@ namespace CleanCodeArchitectureDemo.Domain.Modelling.Validation
     {
         public string ErrorMessage { get; set; } = "";
         public string DomainName { get; set; } = nameof(T);
-        public PropertyInfo? DomainProperty { get; set; }
+        public string? DomainProperty { get; set; }
+        public object? PropertyValue { get; set; }
     }
 }

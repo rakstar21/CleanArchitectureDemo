@@ -25,7 +25,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Que
         {
             try
             {
-                return await unitOfWork.GetAllCustomerAsync();
+                return await unitOfWork.GetAllCustomerAsync(cancellationToken);
             }
             catch (Exception ex)
             {

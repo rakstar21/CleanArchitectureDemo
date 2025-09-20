@@ -8,6 +8,6 @@ namespace CleanCodeArchitectureDemo.Application.Abstractions.ApplicationEvents.Q
 {
     public class GetCustomerContactByIdEvent : IGetCustomerContactByIdEvent
     {
-        public Guid Id { get; set; }
+        public int CustomerId { get; set; }
     }
 }

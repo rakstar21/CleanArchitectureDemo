@@ -1,4 +1,5 @@
 ﻿using CleanCodeArchitectureDemo.Domain.Modelling.Models.DbEntities;
+using CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.Repositories
 {
     public interface ICustomerContactRepository: IRepository<CustomerContactEntity>
     {
-        IEnumerable<CustomerContactEntity> GetContactsByCustomerId(int customerId);
+        Task<IEnumerable<CustomerContactEntity>> GetContactsByCustomerId(int customerId, CancellationToken cancellationToken = default);
+        Task DeleteContactsByCustomerId(int customerId, CancellationToken cancellationToken = default);
+        Task UpdateCustomerContactsAsync(IEnumerable<CustomerContactEntity> request, CancellationToken cancellationToken = default);
     }
 }

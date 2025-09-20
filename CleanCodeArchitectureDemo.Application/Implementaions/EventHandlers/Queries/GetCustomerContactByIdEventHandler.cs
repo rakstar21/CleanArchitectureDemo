@@ -25,7 +25,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Que
         {
             try
             {
-                return await unitOfWork.GetCustomerContactById(applicationEvent.CustomerId);
+                return await unitOfWork.GetCustomerContactById(applicationEvent.CustomerId, cancellationToken);
             }
             catch (Exception ex)
             {

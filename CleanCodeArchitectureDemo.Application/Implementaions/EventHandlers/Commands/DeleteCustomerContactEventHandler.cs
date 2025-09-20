@@ -25,13 +25,13 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Com
             unitOfWork.BeginTransaction();
             try
             {
-                await unitOfWork.DeleteCustomerContactAsync(applicationEvent.Id);
-                await unitOfWork.CommitChangesAsync();
+                await unitOfWork.DeleteCustomerContactAsync(applicationEvent.Id, cancellationToken);
+                await unitOfWork.CommitChangesAsync(cancellationToken);
                 logger.LogInformation($"Delete customer with Customer Contact Id { applicationEvent.Id }");
             }
             catch (Exception ex)
             {
-                await unitOfWork.RollbackChangesAsync();
+                await unitOfWork.RollbackChangesAsync(cancellationToken);
                 logger.LogError(ex, $"Error found in {nameof(DeleteCustomerContactEventHandler)}");
                 throw;
             }

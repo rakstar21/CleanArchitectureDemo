@@ -2,6 +2,7 @@
 using CleanCodeArchitectureDemo.Application.Abstractions.EventHandlers;
 using CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork;
 using CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer;
+using CleanCodeArchitectureDemo.Domain.Modelling.Validation;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,37 +15,49 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Com
     public class CreateCustomerEventHandler : ICommandHandler<ICreateCustomerEvent, GetCustomerResponse>
     {
         private readonly ICustomerReadWriteUnitOfWork unitOfWork;
+        private readonly IValidator<CreateCustomerRequest> validator;
         private readonly ILogger logger;
 
-        public CreateCustomerEventHandler(ICustomerReadWriteUnitOfWork unitOfWork, ILogger logger)
+        public CreateCustomerEventHandler(ICustomerReadWriteUnitOfWork unitOfWork, IValidator<CreateCustomerRequest> validator, ILogger logger)
         {
             this.unitOfWork = unitOfWork;
+            this.validator = validator;
             this.logger = logger;
         }
         public async Task<GetCustomerResponse> Handle(ICreateCustomerEvent applicationEvent, CancellationToken cancellationToken = default)
         {
-            unitOfWork.BeginTransaction();
-            try
+            var validationResult = validator.Validate(applicationEvent.Request);
+            if(validationResult.IsValid)
             {
-                var newId = await unitOfWork.CreateCustomerAsync(applicationEvent.Request);
-                if (applicationEvent.IncludeDependencies && applicationEvent.Request.Contacts.Any()) 
+                unitOfWork.BeginTransaction();
+                try
                 {
-                    IEnumerable<CreateCustomerContactRequest> contacts = applicationEvent.Request.Contacts.ToList();
-                    foreach (var customerContact in contacts) 
+                    var newId = await unitOfWork.CreateCustomerAsync(applicationEvent.Request, cancellationToken);
+                    if (applicationEvent.IncludeDependencies && applicationEvent.Request.Contacts.Any())
                     {
-                        customerContact.CustomerId = newId;
+                        IEnumerable<CreateCustomerContactRequest> contacts = applicationEvent.Request.Contacts.ToList();
+                        foreach (var customerContact in contacts)
+                        {
+                            customerContact.CustomerId = newId;
+                        }
+                        await unitOfWork.CreateCustomerContactsAsync(contacts, cancellationToken);
                     }
-                    await unitOfWork.CreateCustomerContactsAsync(contacts);
+                    await unitOfWork.CommitChangesAsync(cancellationToken);
+                    logger.LogInformation($"Succesfully created customer");
+                    return await unitOfWork.GetCustomerAsync(newId, cancellationToken);
                 }
-                await unitOfWork.CommitChangesAsync();
-                logger.LogInformation($"Succesfully created customer");
-                return await unitOfWork.GetCustomerAsync(newId);
+                catch (Exception ex)
+                {
+                    await unitOfWork.RollbackChangesAsync(cancellationToken);
+                    logger.LogError(ex, $"Error found in {nameof(CreateCustomerEventHandler)}");
+                    throw;
+                }
             }
-            catch (Exception ex)
+            else 
             {
-                await unitOfWork.RollbackChangesAsync();
-                logger.LogError(ex, $"Error found in { nameof(CreateCustomerEventHandler) }");
-                throw;
+                var validationErrors = System.Text.Json.JsonSerializer.Serialize(validationResult.ValidationErrors);
+                logger.LogError($"Input errors in {nameof(CreateCustomerEventHandler)}: {validationErrors}");
+                throw new ArgumentException($"Invalid Arguments");
             }
         }
     }

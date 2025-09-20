@@ -11,6 +11,6 @@ namespace CleanCodeArchitectureDemo.Domain.Modelling.Validation
     public class ValidationResult<T> where T : IDomain
     {
         public bool IsValid { get; set; }
-        public IEnumerable<ValidationError<T>> ValidationErrors { get; set; } = new List<ValidationError<T>>();
+        public IList<ValidationError<T>> ValidationErrors { get; set; } = new List<ValidationError<T>>();
     }
 }

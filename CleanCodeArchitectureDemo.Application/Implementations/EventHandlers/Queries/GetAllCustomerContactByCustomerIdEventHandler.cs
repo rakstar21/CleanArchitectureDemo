@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Queries
+namespace CleanCodeArchitectureDemo.Application.Implementations.EventHandlers.Queries
 {
     public class GetAllCustomerContactByCustomerIdEventHandler : IQueryHandler<IGetAllCustomerContactByCustomerIdEvent, IEnumerable<GetCustomerContactResponse>>
     {

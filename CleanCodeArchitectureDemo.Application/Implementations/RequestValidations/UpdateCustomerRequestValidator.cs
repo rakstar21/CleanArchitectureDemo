@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementaions.RequestValidations
+namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidations
 {
     public class UpdateCustomerRequestValidator: DefaultValidator<UpdateCustomerRequest>, IValidator<UpdateCustomerRequest>
     {

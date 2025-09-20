@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Commands
+namespace CleanCodeArchitectureDemo.Application.Implementations.EventHandlers.Commands
 {
     public class DeleteCustomerContactEventHandler : ICommandHandler<IDeleteCustomerContactEvent>
     {

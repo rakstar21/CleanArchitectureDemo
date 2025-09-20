@@ -26,14 +26,14 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Com
             unitOfWork.BeginTransaction();
             try
             {
-                var newId = await unitOfWork.CreateCustomerContactAsync(applicationEvent.Request);
-                await unitOfWork.CommitChangesAsync();
+                var newId = await unitOfWork.CreateCustomerContactAsync(applicationEvent.Request, cancellationToken);
+                await unitOfWork.CommitChangesAsync(cancellationToken);
                 logger.LogInformation($"Succesfully created customer");
-                return await unitOfWork.GetCustomerContactById(newId);
+                return await unitOfWork.GetCustomerContactById(newId, cancellationToken);
             }
             catch (Exception ex)
             {
-                await unitOfWork.RollbackChangesAsync();
+                await unitOfWork.RollbackChangesAsync(cancellationToken);
                 logger.LogError(ex, $"Error found in {nameof(CreateCustomerContactEventHandler)}");
                 throw;
             }

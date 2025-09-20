@@ -25,13 +25,13 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Com
             unitOfWork.BeginTransaction();
             try
             {
-                await unitOfWork.UpdateCustomerAsync(applicationEvent.Request);
-                await unitOfWork.CommitChangesAsync();
+                await unitOfWork.UpdateCustomerAsync(applicationEvent.Request, cancellationToken);
+                await unitOfWork.CommitChangesAsync(cancellationToken);
                 logger.LogInformation($"Updated customer with Id { applicationEvent.Request.Id }");
             }
             catch (Exception ex)
             {
-                await unitOfWork.RollbackChangesAsync();
+                await unitOfWork.RollbackChangesAsync(cancellationToken);
                 logger.LogError(ex, $"Error found in {nameof(UpdateCustomerEventHandler)}");
                 throw;
             }

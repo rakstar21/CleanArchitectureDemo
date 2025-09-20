@@ -25,7 +25,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Que
         {
             try
             {
-                return await unitOfWork.GetCustomerAsync(applicationEvent.Id);
+                return await unitOfWork.GetCustomerAsync(applicationEvent.Id, cancellationToken);
             }
             catch (Exception ex)
             {

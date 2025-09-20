@@ -26,7 +26,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Com
             unitOfWork.BeginTransaction();
             try
             {
-                var newId = await unitOfWork.CreateCustomerAsync(applicationEvent.Request);
+                var newId = await unitOfWork.CreateCustomerAsync(applicationEvent.Request, cancellationToken);
                 if (applicationEvent.IncludeDependencies && applicationEvent.Request.Contacts.Any()) 
                 {
                     IEnumerable<CreateCustomerContactRequest> contacts = applicationEvent.Request.Contacts.ToList();
@@ -34,15 +34,15 @@ namespace CleanCodeArchitectureDemo.Application.Implementaions.EventHandlers.Com
                     {
                         customerContact.CustomerId = newId;
                     }
-                    await unitOfWork.CreateCustomerContactsAsync(contacts);
+                    await unitOfWork.CreateCustomerContactsAsync(contacts, cancellationToken);
                 }
-                await unitOfWork.CommitChangesAsync();
+                await unitOfWork.CommitChangesAsync(cancellationToken);
                 logger.LogInformation($"Succesfully created customer");
-                return await unitOfWork.GetCustomerAsync(newId);
+                return await unitOfWork.GetCustomerAsync(newId, cancellationToken);
             }
             catch (Exception ex)
             {
-                await unitOfWork.RollbackChangesAsync();
+                await unitOfWork.RollbackChangesAsync(cancellationToken);
                 logger.LogError(ex, $"Error found in { nameof(CreateCustomerEventHandler) }");
                 throw;
             }

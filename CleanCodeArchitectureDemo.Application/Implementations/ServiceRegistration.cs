@@ -2,7 +2,10 @@
 using CleanCodeArchitectureDemo.Application.Abstractions.EventHandlers;
 using CleanCodeArchitectureDemo.Application.Implementations.EventHandlers;
 using CleanCodeArchitectureDemo.Application.Implementations.Mappers;
+using CleanCodeArchitectureDemo.Application.Implementations.RequestValidations;
 using CleanCodeArchitectureDemo.Domain.Modelling.Mappers;
+using CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer;
+using CleanCodeArchitectureDemo.Domain.Modelling.Validation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -30,6 +33,15 @@ namespace CleanCodeArchitectureDemo.Application.Implementations
         public static IServiceCollection AddDomainMappers(this IServiceCollection services) 
         {
             services.AddScoped<IDomainMapper, DomainMapper>();
+            return services;
+        }
+
+        public static IServiceCollection AddRequestValidations(this IServiceCollection services) 
+        {
+            services.AddScoped<IValidator<CreateCustomerContactRequest>, CreateCustomerContactRequestValidator>();
+            services.AddScoped<IValidator<CreateCustomerRequest>, CreateCustomerRequestValidator>();
+            services.AddScoped<IValidator<UpdateCustomerRequest>, UpdateCustomerRequestValidator>();
+            services.AddScoped<IValidator<UpdateCustomerContactRequest>, UpdateCustomerContactRequestValidator>();
             return services;
         }
 

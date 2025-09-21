@@ -10,6 +10,7 @@ namespace CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork
     {
         void BeginTransaction();
         Task CommitChangesAsync(CancellationToken cancellationToken = default);
+        void Dispose();
         Task RollbackChangesAsync(CancellationToken cancellationToken = default);
     }
 }

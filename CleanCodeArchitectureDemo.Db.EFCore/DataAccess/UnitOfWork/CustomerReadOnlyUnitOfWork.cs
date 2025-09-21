@@ -1,4 +1,5 @@
 ﻿using CleanCodeArchitectureDemo.Db.EFCore.DataAccess.Repositories;
+using CleanCodeArchitectureDemo.Db.EFCore.EntityValidations;
 using CleanCodeArchitectureDemo.Domain.DataAccess.Repositories;
 using CleanCodeArchitectureDemo.Domain.DataAccess.UnitOfWork;
 using CleanCodeArchitectureDemo.Domain.Modelling.Mappers;
@@ -19,8 +20,8 @@ namespace CleanCodeArchitectureDemo.Db.EFCore.DataAccess.UnitOfWork
 
         public CustomerReadOnlyUnitOfWork(ConnectionSettings connectionSettings, IDomainMapper mapper) : base(connectionSettings)
         {
-            customerRepository = new CustomerRepository(dbContext);
-            customerContactRepository = new CustomerContactRepository(dbContext);
+            customerRepository = new CustomerRepository(dbContext, new CustomerEntityValidator());
+            customerContactRepository = new CustomerContactRepository(dbContext, new CustomerContactEntityValidator());
             this.mapper = mapper;
         }
 

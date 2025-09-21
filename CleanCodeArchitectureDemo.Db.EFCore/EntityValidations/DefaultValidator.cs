@@ -1,4 +1,5 @@
 ﻿using CleanCodeArchitectureDemo.Domain.Modelling.Models;
+using CleanCodeArchitectureDemo.Domain.Modelling.Models.DbEntities;
 using CleanCodeArchitectureDemo.Domain.Modelling.Validation;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidations
+namespace CleanCodeArchitectureDemo.Db.EFCore.EntityValidations
 {
-    public abstract class DefaultValidator<T> : IValidator<T> where T : IDomain
+    public abstract class DefaultValidator<T> : IValidator<T> where T : IEntity
     {
         protected readonly ValidationResult<T> ValidationResult;
         protected DefaultValidator()
@@ -25,7 +26,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
             return ValidationResult;
         }
 
-        protected ValidationResult<T> CreateDefaultValidationResult()
+        protected ValidationResult<T> CreateDefaultValidationResult() 
         {
             return new ValidationResult<T>()
             {

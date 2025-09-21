@@ -3,26 +3,25 @@ using CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer;
 using CleanCodeArchitectureDemo.Domain.Modelling.Validation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidations
+namespace CleanCodeArchitectureDemo.Db.EFCore.EntityValidations
 {
-    public class CreateCustomerRequestValidator: DefaultValidator<CreateCustomerRequest>, IValidator<CreateCustomerRequest>
+    public class CustomerEntityValidator : DefaultValidator<CustomerEntity>
     {
-        public override ValidationResult<CreateCustomerRequest> Validate(CreateCustomerRequest domain)
+        public override ValidationResult<CustomerEntity> Validate(CustomerEntity domain)
         {
-            if (string.IsNullOrWhiteSpace(domain.CustomerName) || string.IsNullOrEmpty(domain.CustomerName)) ValidationResult.ValidationErrors.Add(new ValidationError<CreateCustomerRequest>() 
+            if (string.IsNullOrWhiteSpace(domain.CustomerName) || string.IsNullOrEmpty(domain.CustomerName)) ValidationResult.ValidationErrors.Add(new ValidationError<CustomerEntity>()
             {
-                ErrorMessage = $"CustomerName is empty",
-                DomainName = nameof(CreateCustomerRequest),
+                ErrorMessage = $"CustomerName is required",
+                DomainName = nameof(CustomerEntity),
                 DomainProperty = nameof(domain.CustomerName),
                 PropertyValue = domain.CustomerName
             });
 
-            if (domain.CustomerName != null && domain.CustomerName.Length > 100) ValidationResult.ValidationErrors.Add(new ValidationError<CreateCustomerRequest>()
+            if (domain.CustomerName != null && domain.CustomerName.Length > 100) ValidationResult.ValidationErrors.Add(new ValidationError<CustomerEntity>()
             {
                 ErrorMessage = "CustomerName must not be more than 100 characters long.",
                 DomainName = nameof(CustomerEntity),

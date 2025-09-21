@@ -12,9 +12,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
     {
         public override ValidationResult<UpdateCustomerContactRequest> Validate(UpdateCustomerContactRequest domain)
         {
-            var validationResult = base.Validate(domain);
-
-            if (domain.CustomerId < 1) validationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            if (domain.CustomerId < 1) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
             {
                 ErrorMessage = "Invalid CustomerId.",
                 DomainName = nameof(UpdateCustomerContactRequest),
@@ -22,7 +20,15 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
                 PropertyValue = domain.CustomerId
             });
 
-            if (domain.FirstName == null || domain.FirstName.Length < 2) validationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            if (domain.CustomerId < 1) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            {
+                ErrorMessage = "Invalid CustomerId.",
+                DomainName = nameof(UpdateCustomerContactRequest),
+                DomainProperty = nameof(domain.CustomerId),
+                PropertyValue = domain.CustomerId
+            });
+
+            if (domain.FirstName == null || domain.FirstName.Length < 2) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
             {
                 ErrorMessage = "FirstName must be at least 2 characters long.",
                 DomainName = nameof(UpdateCustomerContactRequest),
@@ -30,7 +36,15 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
                 PropertyValue = domain.FirstName
             });
 
-            if (domain.LastName == null || domain.LastName.Length < 2) validationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            if (domain.FirstName == null || domain.FirstName.Length > 50) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            {
+                ErrorMessage = "FirstName must not be more than 50 characters long.",
+                DomainName = nameof(UpdateCustomerContactRequest),
+                DomainProperty = nameof(domain.FirstName),
+                PropertyValue = domain.FirstName
+            });
+
+            if (domain.LastName == null || domain.LastName.Length < 2) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
             {
                 ErrorMessage = "LastName must be at least 2 characters long.",
                 DomainName = nameof(UpdateCustomerContactRequest),
@@ -38,7 +52,15 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
                 PropertyValue = domain.LastName
             });
 
-            if (domain.Address == null || domain.Address.Length < 5) validationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            if (domain.LastName == null || domain.LastName.Length > 50) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            {
+                ErrorMessage = "LastName must not be more than 50 characters long.",
+                DomainName = nameof(UpdateCustomerContactRequest),
+                DomainProperty = nameof(domain.LastName),
+                PropertyValue = domain.LastName
+            });
+
+            if (domain.Address == null || domain.Address.Length < 5) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
             {
                 ErrorMessage = "Address must be at least 5 characters long.",
                 DomainName = nameof(UpdateCustomerContactRequest),
@@ -46,7 +68,15 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
                 PropertyValue = domain.Address
             });
 
-            if(domain.ContactNumber == null || domain.ContactNumber.Length < 10) validationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            if (domain.Address == null || domain.Address.Length > 500) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            {
+                ErrorMessage = "Address must not be more than 500 characters long.",
+                DomainName = nameof(UpdateCustomerContactRequest),
+                DomainProperty = nameof(domain.Address),
+                PropertyValue = domain.Address
+            });
+
+            if (domain.ContactNumber == null || domain.ContactNumber.Length < 10) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
             {
                 ErrorMessage = "ContactNumber must be at least 10 characters long.",
                 DomainName = nameof(UpdateCustomerContactRequest),
@@ -54,7 +84,15 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
                 PropertyValue = domain.ContactNumber
             });
 
-            if (domain.ContactNumber != null && !domain.ContactNumber.All(c => char.IsDigit(c))) validationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            if (domain.ContactNumber == null || domain.ContactNumber.Length > 25) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
+            {
+                ErrorMessage = "Address must not be more than 25 characters long.",
+                DomainName = nameof(UpdateCustomerContactRequest),
+                DomainProperty = nameof(domain.ContactNumber),
+                PropertyValue = domain.ContactNumber
+            });
+
+            if (domain.ContactNumber != null && !domain.ContactNumber.All(c => char.IsDigit(c))) ValidationResult.ValidationErrors.Add(new ValidationError<UpdateCustomerContactRequest>()
             {
                 ErrorMessage = "ContactNumber must contain only digits.",
                 DomainName = nameof(UpdateCustomerContactRequest),
@@ -62,12 +100,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
                 PropertyValue = domain.ContactNumber
             });
 
-            if (validationResult.ValidationErrors.Any())
-            {
-                validationResult.IsValid = false;
-            }
-
-            return validationResult;
+            return base.Validate(domain);
         }
     }
 }

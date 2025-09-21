@@ -1,4 +1,5 @@
-﻿using CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer;
+﻿using CleanCodeArchitectureDemo.Domain.Modelling.Models.DbEntities;
+using CleanCodeArchitectureDemo.Domain.Modelling.Models.DTOs.Customer;
 using CleanCodeArchitectureDemo.Domain.Modelling.Validation;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
     {
         public override ValidationResult<CreateCustomerRequest> Validate(CreateCustomerRequest domain)
         {
-            var validationResult = base.Validate(domain);
-
-            if (string.IsNullOrWhiteSpace(domain.CustomerName) || string.IsNullOrEmpty(domain.CustomerName)) validationResult.ValidationErrors.Add(new ValidationError<CreateCustomerRequest>() 
+            if (string.IsNullOrWhiteSpace(domain.CustomerName) || string.IsNullOrEmpty(domain.CustomerName)) ValidationResult.ValidationErrors.Add(new ValidationError<CreateCustomerRequest>() 
             {
                 ErrorMessage = $"CustomerName is empty",
                 DomainName = nameof(CreateCustomerRequest),
@@ -23,12 +22,15 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
                 PropertyValue = domain.CustomerName
             });
 
-            if (validationResult.ValidationErrors.Any())
+            if (domain.CustomerName != null && domain.CustomerName.Length > 100) ValidationResult.ValidationErrors.Add(new ValidationError<CreateCustomerRequest>()
             {
-                validationResult.IsValid = false;
-            }
+                ErrorMessage = "CustomerName must not be more than 100 characters long.",
+                DomainName = nameof(CustomerEntity),
+                DomainProperty = nameof(domain.CustomerName),
+                PropertyValue = domain.CustomerName
+            });
 
-            return validationResult;
+            return base.Validate(domain);
         }
     }
 }

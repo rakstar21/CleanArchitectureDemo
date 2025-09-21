@@ -10,9 +10,24 @@ namespace CleanCodeArchitectureDemo.Application.Implementations.RequestValidatio
 {
     public abstract class DefaultValidator<T> : IValidator<T> where T : IDomain
     {
+        protected readonly ValidationResult<T> ValidationResult;
+        protected DefaultValidator()
+        {
+            ValidationResult = CreateDefaultValidationResult();
+        }
         public virtual ValidationResult<T> Validate(T domain)
         {
-            return new ValidationResult<T>() 
+            if (ValidationResult.ValidationErrors.Any())
+            {
+                ValidationResult.IsValid = false;
+            }
+
+            return ValidationResult;
+        }
+
+        protected ValidationResult<T> CreateDefaultValidationResult()
+        {
+            return new ValidationResult<T>()
             {
                 IsValid = true,
                 ValidationErrors = new List<ValidationError<T>>()

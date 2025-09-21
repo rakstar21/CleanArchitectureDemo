@@ -10,7 +10,8 @@ namespace CleanCodeArchitectureDemo.Domain.Modelling.Mappers
 {
     public interface ICustomerMapper
     {
-        GetCustomerContactResponse MapEntitiesToResponseModel(CustomerEntity customer, IEnumerable<CustomerContactEntity> contacts);
+        IEnumerable<GetCustomerResponse> MapEntitiesToResponseModels(IEnumerable<CustomerEntity> customers);
+        GetCustomerResponse MapEntityToResponseModel(CustomerEntity customer);
         CustomerEntity MapRequestModelToEntity(CreateCustomerRequest request);
         CustomerEntity MapRequestModelToEntity(UpdateCustomerRequest request);
     }

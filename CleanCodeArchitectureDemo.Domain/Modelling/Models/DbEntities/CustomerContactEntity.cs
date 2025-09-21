@@ -13,5 +13,7 @@ namespace CleanCodeArchitectureDemo.Domain.Modelling.Models.DbEntities
         public string LastName { get; set; }
         public string Address { get; set; }
         public string ContactNumber { get; set; }
+
+        public CustomerEntity Customer { get; set; }
     }
 }

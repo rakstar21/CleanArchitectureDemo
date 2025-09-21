@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CleanCodeArchitectureDemo.Application.Implementations
+namespace CleanCodeArchitectureDemo.Application.Implementations.EventHandlers
 {
     public class Sender : ISender
     {
@@ -16,7 +16,7 @@ namespace CleanCodeArchitectureDemo.Application.Implementations
 
         public Sender(IServiceProvider serviceProvider)
         {
-            this.service = serviceProvider;
+            service = serviceProvider;
         }
 
         public async Task<TResponse> Send<TResponse>(IQueryHandler<IApplicationEvent, TResponse> request, CancellationToken cancellationToken = default) where TResponse : class

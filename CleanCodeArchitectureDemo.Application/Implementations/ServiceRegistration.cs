@@ -1,5 +1,8 @@
 ﻿using CleanCodeArchitectureDemo.Application.Abstractions;
 using CleanCodeArchitectureDemo.Application.Abstractions.EventHandlers;
+using CleanCodeArchitectureDemo.Application.Implementations.EventHandlers;
+using CleanCodeArchitectureDemo.Application.Implementations.Mappers;
+using CleanCodeArchitectureDemo.Domain.Modelling.Mappers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CleanCodeArchitectureDemo.Application.Implementations
 {
-    public static class ServiceMediator
+    public static class ServiceRegistration
     {
         public static IServiceCollection AddServiceMediator(this IServiceCollection services, Assembly? assembly = null) 
         {
@@ -21,6 +24,12 @@ namespace CleanCodeArchitectureDemo.Application.Implementations
             RegisterQueryHandlers(services, assembly);
             RegisterCommandHandlers(services, assembly);
 
+            return services;
+        }
+
+        public static IServiceCollection AddDomainMappers(this IServiceCollection services) 
+        {
+            services.AddScoped<IDomainMapper, DomainMapper>();
             return services;
         }
 

@@ -2,6 +2,7 @@
 using CleanCodeArchitectureDemo.Domain.Modelling.Models;
 using CleanCodeArchitectureDemo.Domain.Modelling.Models.DbEntities;
 using CleanCodeArchitectureDemo.Domain.Modelling.Models.Exceptions;
+using CleanCodeArchitectureDemo.Domain.Modelling.Validation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
@@ -15,13 +16,17 @@ namespace CleanCodeArchitectureDemo.Db.EFCore.DataAccess.Repositories
     public abstract class BaseRepository<T> : IRepository<T> where T : class, IEntity
     {
         protected readonly DbContext dbContext;
+        protected readonly IValidator<T> Validator;
 
-        protected BaseRepository(DbContext dbContext)
+        protected BaseRepository(DbContext dbContext, IValidator<T> validator)
         {
             this.dbContext = dbContext;
+            this.Validator = validator;
         }
         public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
         {
+            var validationResult = Validator.Validate(entity);
+            if (!validationResult.IsValid) throw new BadRequestException<T>(validationResult.ValidationErrors);
             await dbContext.AddAsync(entity, cancellationToken);
 
             return entity;
@@ -29,6 +34,11 @@ namespace CleanCodeArchitectureDemo.Db.EFCore.DataAccess.Repositories
 
         public async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
+            foreach (var entity in entities)
+            {
+                var validationResult = Validator.Validate(entity);
+                if (!validationResult.IsValid) throw new BadRequestException<T>(validationResult.ValidationErrors);
+            }
             await dbContext.AddRangeAsync(entities, cancellationToken);
         }
 
@@ -55,6 +65,9 @@ namespace CleanCodeArchitectureDemo.Db.EFCore.DataAccess.Repositories
 
         public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
+            var validationResult = Validator.Validate(entity);
+            if (!validationResult.IsValid) throw new BadRequestException<T>(validationResult.ValidationErrors);
+
             if (dbContext.Set<T>().FirstOrDefault(i => i.Id == entity.Id) == null) throw new DomainNotFoundException<T>();
 
             await Task.Run(() => dbContext.Set<T>().Update(entity), cancellationToken);
@@ -64,6 +77,12 @@ namespace CleanCodeArchitectureDemo.Db.EFCore.DataAccess.Repositories
 
         public async Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
+            foreach (var entity in entities)
+            {
+                var validationResult = Validator.Validate(entity);
+                if (!validationResult.IsValid) throw new BadRequestException<T>(validationResult.ValidationErrors);
+                if (dbContext.Set<T>().FirstOrDefault(i => i.Id == entity.Id) == null) throw new DomainNotFoundException<T>();
+            }
             await Task.Run(() => dbContext.Set<T>().UpdateRange(entities), cancellationToken);
         }
     }
